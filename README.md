@@ -4,10 +4,8 @@ A full-stack web application designed to simplify and manage the healthcare appo
 
 ## Live Demo
 
-- **Frontend (Render):** [Add link after deployment](https://your-frontend-app.onrender.com)
-- **Backend (Render):** [Add link after deployment](https://your-backend-app.onrender.com)
-
-> Deployment pending — links will be updated once the app is live on Render.
+- **Frontend:** [healthcare-appointment-manager-n37h.onrender.com](https://healthcare-appointment-manager-n37h.onrender.com/)
+- **Backend API:** [healthcare-appointment-manager-backend-0507.onrender.com](https://healthcare-appointment-manager-backend-0507.onrender.com/)
 
 ## Features
 
@@ -47,6 +45,43 @@ Booked → Confirmed → Completed
        ↘
         Cancelled
 ```
+
+## 📸 Application Screenshots
+
+### 🔐 Login Page
+![Login Page](screenshots/login-page.png)
+
+The secure login interface allows registered users to access the Healthcare Appointment Management System based on their account credentials and role.
+
+### 🏥 Patient Dashboard – Book an Appointment
+![Patient Dashboard Booking](screenshots/patient-dashboard-booking.png)
+
+Patients can select an available doctor, choose a date and time slot, provide the reason for the appointment, and optionally add symptoms before booking an appointment.
+
+### 📅 Patient Dashboard – My Appointments
+![Patient Appointments](screenshots/patient-appointments.png)
+
+Patients can view their booked appointments, including doctor details, appointment date, time, reason, and current appointment status. Booked appointments can also be cancelled.
+
+### 👨‍⚕️ Doctor Dashboard – Appointments
+![Doctor Dashboard](screenshots/doctor-dashboard-booked.png)
+
+Doctors can view appointments booked by patients along with patient details, appointment date, time, reason, and appointment status.
+
+### 🔄 Doctor Appointment Management
+![Doctor Appointment Management](screenshots/doctor-appointment-management.png)
+
+Doctors can manage appointment requests by confirming, cancelling, and marking confirmed appointments as completed.
+
+### 👨‍💼 Admin Dashboard
+![Admin Dashboard](screenshots/admin-dashboard.png)
+
+The Admin Dashboard provides a system overview, including the total number of patients, doctors, appointments, and appointment status statistics such as booked, confirmed, completed, and cancelled.
+
+### 🚀 Backend API
+![Backend API](screenshots/backend-api-running.png)
+
+The deployed backend API is running successfully and provides the backend services required for authentication, appointment management, and dashboard functionality.
 
 ## Tech Stack
 
@@ -89,6 +124,15 @@ healthcare-appointment-manager/
 │   ├── routes/
 │   ├── server.js
 │   └── package.json
+│
+├── screenshots/
+│   ├── login-page.png
+│   ├── patient-dashboard-booking.png
+│   ├── patient-appointments.png
+│   ├── doctor-dashboard-booked.png
+│   ├── doctor-appointment-management.png
+│   ├── admin-dashboard.png
+│   └── backend-api-running.png
 │
 └── README.md
 ```
@@ -155,16 +199,16 @@ npm install
 npm run dev
 ```
 
-The frontend will run on:
+The frontend will run locally on:
 
 ```
 http://localhost:5173
 ```
 
-The backend will run on:
+The backend will run locally on:
 
 ```
-https://healthcare-appointment-manager-backend-0507.onrender.com
+http://localhost:5000
 ```
 
 ## Environment Variables
