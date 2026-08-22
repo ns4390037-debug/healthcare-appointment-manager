@@ -24,7 +24,7 @@ function Register() {
 
     try {
       await axios.post(
-        "https://healthcare-appointment-manager-backend-057.onrender.com/api/auth/register",
+        "https://healthcare-appointment-manager-backend-0507.onrender.com/api/auth/register",
         formData
       );
 

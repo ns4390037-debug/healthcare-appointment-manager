@@ -16,7 +16,7 @@ function PatientDashboard() {
   const fetchDoctors = async () => {
     try {
       const response = await axios.get(
-        "https://healthcare-appointment-manager-backend-057.onrender.com/api/doctors"
+        "https://healthcare-appointment-manager-backend-0507.onrender.com/api/doctors"
       );
 
       console.log("Doctors:", response.data);
@@ -45,7 +45,7 @@ function PatientDashboard() {
       }
 
       const response = await axios.get(
-        "https://healthcare-appointment-manager-backend-057.onrender.com/api/appointments/my",
+        "https://healthcare-appointment-manager-backend-0507.onrender.com/api/appointments/my",
         {
           headers: {
             Authorization: `Bearer ${currentToken}`
@@ -82,7 +82,7 @@ function PatientDashboard() {
       setTimeSlot("");
 
       const response = await axios.get(
-        `https://healthcare-appointment-manager-backend-057.onrender.com/api/doctors/${selectedDoctor}/slots?date=${appointmentDate}`
+        `https://healthcare-appointment-manager-backend-0507.onrender.com/api/doctors/${selectedDoctor}/slots?date=${appointmentDate}`
       );
 
       console.log("Available Slots:", response.data);
@@ -128,7 +128,7 @@ function PatientDashboard() {
       }
 
       const response = await axios.post(
-        "https://healthcare-appointment-manager-backend-057.onrender.com/api/appointments",
+        "https://healthcare-appointment-manager-backend-0507.onrender.com/api/appointments",
         {
           doctorId: selectedDoctor,
           appointmentDate,
@@ -179,7 +179,7 @@ function PatientDashboard() {
       const currentToken = localStorage.getItem("token");
 
       const response = await axios.put(
-        `https://healthcare-appointment-manager-backend-057.onrender.com/api/appointments/${id}/cancel`,
+        `https://healthcare-appointment-manager-backend-0507.onrender.com/api/appointments/${id}/cancel`,
         {},
         {
           headers: {

@@ -12,7 +12,7 @@ function AdminDashboard() {
   const fetchDashboard = async () => {
     try {
       const response = await axios.get(
-        "https://healthcare-appointment-manager-backend-057.onrender.com/api/admin/dashboard",
+        "https://healthcare-appointment-manager-backend-0507.onrender.com/api/admin/dashboard",
         {
           headers: {
             Authorization: `Bearer ${token}`
