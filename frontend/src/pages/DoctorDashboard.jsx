@@ -13,7 +13,7 @@ function DoctorDashboard() {
   const fetchDoctorAppointments = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/appointments/doctor/my",
+        "https://healthcare-appointment-manager-backend-057.onrender.com/api/appointments/doctor/my",
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -35,7 +35,7 @@ function DoctorDashboard() {
   const updateAppointmentStatus = async (id, status) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/appointments/${id}`,
+        `https://healthcare-appointment-manager-backend-057.onrender.com/api/appointments/${id}`,
         {
           status
         },

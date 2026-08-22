@@ -164,7 +164,7 @@ http://localhost:5173
 The backend will run on:
 
 ```
-http://localhost:5000
+https://healthcare-appointment-manager-backend-057.onrender.com
 ```
 
 ## Environment Variables
