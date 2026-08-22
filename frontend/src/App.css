@@ -1,0 +1,281 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f7fb;
+  color: #1f2937;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  transition: 0.2s;
+}
+
+/* ================= AUTH PAGES ================= */
+
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #e0f2fe, #f8fafc);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.12);
+}
+
+.auth-card h1 {
+  text-align: center;
+  color: #2563eb;
+  margin-bottom: 10px;
+}
+
+.auth-card h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 22px;
+}
+
+.auth-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.auth-card input {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  outline: none;
+}
+
+.auth-card input:focus {
+  border-color: #2563eb;
+}
+
+.auth-card button {
+  padding: 13px;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  font-weight: bold;
+}
+
+.auth-card button:hover {
+  background: #1d4ed8;
+}
+
+.auth-card p {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.auth-card a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* ================= DASHBOARD ================= */
+
+.dashboard {
+  min-height: 100vh;
+  padding: 30px 7%;
+}
+
+.dashboard-header {
+  background: white;
+  padding: 20px 30px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+.dashboard-header h1 {
+  color: #2563eb;
+}
+
+.dashboard-header button {
+  padding: 10px 18px;
+  border-radius: 7px;
+  background: #ef4444;
+  color: white;
+}
+
+.dashboard-header button:hover {
+  background: #dc2626;
+}
+
+.dashboard section {
+  margin-bottom: 35px;
+}
+
+.dashboard section h2 {
+  margin-bottom: 20px;
+  color: #1e3a8a;
+}
+
+/* ================= BOOKING FORM ================= */
+
+.booking-section {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+.booking-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.booking-form input,
+.booking-form select,
+.booking-form textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+}
+
+.booking-form input:focus,
+.booking-form select:focus,
+.booking-form textarea:focus {
+  border-color: #2563eb;
+}
+
+.booking-form textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.booking-form button {
+  grid-column: span 2;
+  padding: 13px;
+  background: #2563eb;
+  color: white;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.booking-form button:hover {
+  background: #1d4ed8;
+}
+
+/* ================= CARDS ================= */
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(250px, 1fr)
+  );
+  gap: 20px;
+}
+
+.doctor-card,
+.appointment-card,
+.stat-card {
+  background: white;
+  padding: 22px;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+.doctor-card h3,
+.appointment-card h3 {
+  color: #2563eb;
+  margin-bottom: 12px;
+}
+
+.doctor-card p,
+.appointment-card p {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.appointment-card button {
+  width: 100%;
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 7px;
+  background: #ef4444;
+  color: white;
+}
+
+.appointment-card button:hover {
+  background: #dc2626;
+}
+
+/* ================= ADMIN STATS ================= */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(200px, 1fr)
+  );
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  text-align: center;
+}
+
+.stat-card h3 {
+  color: #475569;
+  margin-bottom: 10px;
+}
+
+.stat-card p {
+  font-size: 32px;
+  font-weight: bold;
+  color: #2563eb;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 20px;
+  }
+
+  .dashboard-header {
+    padding: 18px;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .booking-form {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-form button {
+    grid-column: span 1;
+  }
+
+  .auth-card {
+    padding: 30px 20px;
+  }
+}
