@@ -1,6 +1,11 @@
 const Appointment = require("../models/Appointment");
 const Doctor = require("../models/Doctor");
 
+const {
+  generatePreVisitAI,
+  generatePostVisitAI
+} = require("../services/aiService");
+
 // BOOK APPOINTMENT
 const bookAppointment = async (req, res) => {
   try {
@@ -205,6 +210,152 @@ const updateAppointment = async (req, res) => {
   }
 };
 
+// GENERATE PRE-VISIT AI SUMMARY
+const generatePreVisitSummary = async (req, res) => {
+  try {
+    const appointment = await Appointment.findOne({
+      _id: req.params.id,
+      patient: req.user._id
+    });
+
+    if (!appointment) {
+      return res.status(404).json({
+        message: "Appointment not found"
+      });
+    }
+
+    if (!appointment.symptoms?.trim()) {
+      return res.status(400).json({
+        message: "Please provide symptoms before generating AI summary"
+      });
+    }
+
+    try {
+      appointment.aiStatus.preVisit = "pending";
+      await appointment.save();
+
+      const aiResult = await generatePreVisitAI(
+        appointment.symptoms
+      );
+
+      appointment.preVisitSummary = {
+        urgencyLevel: aiResult.urgencyLevel,
+        chiefComplaint: aiResult.chiefComplaint,
+        suggestedQuestions: aiResult.suggestedQuestions,
+        generatedAt: new Date()
+      };
+
+      appointment.aiStatus.preVisit = "success";
+
+      await appointment.save();
+
+      return res.status(200).json({
+        message: "Pre-visit AI summary generated successfully",
+        preVisitSummary: appointment.preVisitSummary
+      });
+    } catch (aiError) {
+      appointment.aiStatus.preVisit = "failed";
+      await appointment.save();
+
+      // Graceful failure: booking/system continues normally
+      return res.status(200).json({
+        message:
+          "Appointment is available, but AI summary could not be generated at this time",
+        aiStatus: "failed",
+        error: aiError.message
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to generate pre-visit summary",
+      error: error.message
+    });
+  }
+};
+
+// GENERATE POST-VISIT AI SUMMARY
+const generatePostVisitSummary = async (req, res) => {
+  try {
+    const doctor = await Doctor.findOne({
+      user: req.user._id
+    });
+
+    if (!doctor) {
+      return res.status(404).json({
+        message: "Doctor profile not found"
+      });
+    }
+
+    const appointment = await Appointment.findOne({
+      _id: req.params.id,
+      doctor: doctor._id
+    });
+
+    if (!appointment) {
+      return res.status(404).json({
+        message: "Appointment not found"
+      });
+    }
+
+    const { notes, prescription } = req.body;
+
+    if (notes !== undefined) {
+      appointment.notes = notes;
+    }
+
+    if (prescription !== undefined) {
+      appointment.prescription = prescription;
+    }
+
+    if (!appointment.notes?.trim()) {
+      return res.status(400).json({
+        message: "Clinical notes are required to generate post-visit summary"
+      });
+    }
+
+    try {
+      appointment.aiStatus.postVisit = "pending";
+      await appointment.save();
+
+      const aiResult = await generatePostVisitAI(
+        appointment.notes,
+        appointment.prescription
+      );
+
+      appointment.postVisitSummary = {
+        summary: aiResult.summary,
+        medicationSchedule: aiResult.medicationSchedule,
+        followUpSteps: aiResult.followUpSteps,
+        generatedAt: new Date()
+      };
+
+      appointment.aiStatus.postVisit = "success";
+
+      await appointment.save();
+
+      return res.status(200).json({
+        message: "Post-visit AI summary generated successfully",
+        postVisitSummary: appointment.postVisitSummary
+      });
+    } catch (aiError) {
+      appointment.aiStatus.postVisit = "failed";
+      await appointment.save();
+
+      return res.status(200).json({
+        message:
+          "Clinical notes were saved, but AI summary could not be generated at this time",
+        aiStatus: "failed",
+        error: aiError.message
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to generate post-visit summary",
+      error: error.message
+    });
+  }
+};
+
 const cancelAppointment = async (req, res) => {
   try {
     const appointment = await Appointment.findOne({
@@ -244,5 +395,7 @@ module.exports = {
   getMyAppointments,
   getDoctorAppointments,
   updateAppointment,
-  cancelAppointment
+  cancelAppointment,
+  generatePreVisitSummary,
+  generatePostVisitSummary
 };

@@ -1,4 +1,5 @@
 const express = require("express");
+
 const router = express.Router();
 
 const {
@@ -6,7 +7,9 @@ const {
   getMyAppointments,
   getDoctorAppointments,
   updateAppointment,
-  cancelAppointment
+  cancelAppointment,
+  generatePreVisitSummary,
+  generatePostVisitSummary
 } = require("../controllers/appointmentController");
 
 const {
@@ -30,12 +33,28 @@ router.get(
   getMyAppointments
 );
 
+// Generate AI pre-visit symptom summary
+router.post(
+  "/:id/pre-visit-summary",
+  protect,
+  authorizeRoles("patient"),
+  generatePreVisitSummary
+);
+
 // Doctor views own appointments
 router.get(
   "/doctor/my",
   protect,
   authorizeRoles("doctor"),
   getDoctorAppointments
+);
+
+// Doctor generates AI post-visit summary
+router.post(
+  "/:id/post-visit-summary",
+  protect,
+  authorizeRoles("doctor"),
+  generatePostVisitSummary
 );
 
 // Doctor updates own appointment
@@ -46,6 +65,7 @@ router.put(
   updateAppointment
 );
 
+// Patient cancels own appointment
 router.put(
   "/:id/cancel",
   protect,

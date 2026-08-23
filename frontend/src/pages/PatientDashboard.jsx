@@ -11,6 +11,7 @@ function PatientDashboard() {
   const [timeSlot, setTimeSlot] = useState("");
   const [reason, setReason] = useState("");
   const [symptoms, setSymptoms] = useState("");
+  const [loadingSummary, setLoadingSummary] = useState("");
 
   // FETCH ALL DOCTORS
   const fetchDoctors = async () => {
@@ -206,6 +207,59 @@ function PatientDashboard() {
         error.response?.data?.message ||
           "Failed to cancel appointment"
       );
+    }
+  };
+
+  // GENERATE PRE-VISIT AI SUMMARY
+  const generatePreVisitSummary = async (appointmentId) => {
+    try {
+      const currentToken = localStorage.getItem("token");
+
+      if (!currentToken) {
+        alert("Please login again");
+        return;
+      }
+
+      setLoadingSummary(appointmentId);
+
+      const response = await axios.post(
+        `https://healthcare-appointment-manager-backend-0507.onrender.com/api/appointments/${appointmentId}/pre-visit-summary`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${currentToken}`
+          }
+        }
+      );
+
+      console.log(
+        "AI Pre-Visit Summary:",
+        response.data
+      );
+
+      if (response.data.aiStatus === "failed") {
+        alert(
+          response.data.message ||
+            "AI summary could not be generated"
+        );
+        return;
+      }
+
+      await fetchAppointments();
+
+      alert("AI pre-visit summary generated successfully!");
+    } catch (error) {
+      console.error(
+        "AI Summary Error:",
+        error.response?.data || error.message
+      );
+
+      alert(
+        error.response?.data?.message ||
+          "Failed to generate AI summary"
+      );
+    } finally {
+      setLoadingSummary("");
     }
   };
 
@@ -416,6 +470,62 @@ function PatientDashboard() {
                       {appointment.symptoms}
                     </p>
                   )}
+
+                  {/* AI PRE-VISIT SUMMARY */}
+                  {appointment.symptoms &&
+                    appointment.status !== "cancelled" && (
+                      <div className="ai-summary-section">
+                        {!appointment.preVisitSummary?.urgencyLevel ? (
+                          <button
+                            onClick={() =>
+                              generatePreVisitSummary(
+                                appointment._id
+                              )
+                            }
+                            disabled={
+                              loadingSummary === appointment._id
+                            }
+                          >
+                            {loadingSummary === appointment._id
+                              ? "Generating AI Summary..."
+                              : "✨ Generate AI Pre-Visit Summary"}
+                          </button>
+                        ) : (
+                          <div className="ai-summary-card">
+                            <h4>✨ AI Pre-Visit Summary</h4>
+
+                            <p>
+                              <strong>Urgency Level:</strong>{" "}
+                              {appointment.preVisitSummary.urgencyLevel}
+                            </p>
+
+                            <p>
+                              <strong>Chief Complaint:</strong>{" "}
+                              {
+                                appointment.preVisitSummary
+                                  .chiefComplaint
+                              }
+                            </p>
+
+                            <div>
+                              <strong>
+                                Questions for Your Doctor:
+                              </strong>
+
+                              <ul>
+                                {appointment.preVisitSummary.suggestedQuestions?.map(
+                                  (question, index) => (
+                                    <li key={index}>
+                                      {question}
+                                    </li>
+                                  )
+                                )}
+                              </ul>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
 
                   {appointment.notes && (
                     <p>
