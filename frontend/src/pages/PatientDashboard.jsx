@@ -536,41 +536,58 @@ function PatientDashboard() {
 
                   {/* AI POST-VISIT SUMMARY */}
                   {appointment.postVisitSummary?.summary && (
-                    <div className="ai-summary-card post-visit-summary">
-                      <h4>✨ AI Post-Visit Summary</h4>
+                    <div className="post-visit-section">
+                      
+                      <h4 className="post-visit-title">
+                        ✨ AI Post-Visit Summary
+                      </h4>
 
-                      <p>
-                        <strong>Summary:</strong>{" "}
-                        {appointment.postVisitSummary.summary}
-                      </p>
+                      <div className="post-visit-grid">
 
-                      {appointment.postVisitSummary.medicationSchedule?.length > 0 && (
-                        <div>
-                          <strong>💊 Medication Schedule:</strong>
+                        {/* SUMMARY CARD */}
+                        <div className="post-visit-card">
+                          <h5>📋 Summary</h5>
 
-                          <ul>
-                            {appointment.postVisitSummary.medicationSchedule.map(
-                              (medicine, index) => (
-                                <li key={index}>{medicine}</li>
-                              )
-                            )}
-                          </ul>
+                          <p>
+                            {appointment.postVisitSummary.summary}
+                          </p>
                         </div>
-                      )}
 
-                      {appointment.postVisitSummary.followUpSteps?.length > 0 && (
-                        <div>
-                          <strong>📋 Follow-Up Steps:</strong>
+                        {/* MEDICATION CARD */}
+                        {appointment.postVisitSummary.medicationSchedule?.length > 0 && (
+                          <div className="post-visit-card">
+                            <h5>💊 Medication Schedule</h5>
 
-                          <ul>
-                            {appointment.postVisitSummary.followUpSteps.map(
-                              (step, index) => (
-                                <li key={index}>{step}</li>
-                              )
-                            )}
-                          </ul>
-                        </div>
-                      )}
+                            <ul>
+                              {appointment.postVisitSummary.medicationSchedule.map(
+                                (medicine, index) => (
+                                  <li key={index}>
+                                    {medicine}
+                                  </li>
+                                )
+                              )}
+                            </ul>
+                          </div>
+                        )}
+
+                        {/* FOLLOW-UP CARD */}
+                        {appointment.postVisitSummary.followUpSteps?.length > 0 && (
+                          <div className="post-visit-card follow-up-card">
+                            <h5>📌 Follow-Up Steps</h5>
+
+                            <ul>
+                              {appointment.postVisitSummary.followUpSteps.map(
+                                (step, index) => (
+                                  <li key={index}>
+                                    {step}
+                                  </li>
+                                )
+                              )}
+                            </ul>
+                          </div>
+                        )}
+
+                      </div>
                     </div>
                   )}
 
