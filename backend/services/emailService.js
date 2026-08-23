@@ -1,5 +1,8 @@
 const nodemailer = require("nodemailer");
 
+const dns = require("dns");
+
+dns.setDefaultResultOrder("ipv4first");
 // Create email transporter
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
