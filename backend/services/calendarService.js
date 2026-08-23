@@ -46,13 +46,15 @@ const createCalendarEvent = async ({
   appointmentTime
 }) => {
   try {
-    const startDateTime = new Date(
-      `${appointmentDate}T${appointmentTime}:00`
+    const startDateTime = `${appointmentDate}T${appointmentTime}:00+05:30`;
+
+    const startDate = new Date(startDateTime);
+
+    const endDate = new Date(
+    startDate.getTime() + 30 * 60 * 1000
     );
 
-    const endDateTime = new Date(
-      startDateTime.getTime() + 30 * 60 * 1000
-    );
+    const endDateTime = endDate.toISOString();
 
     const event = await calendar.events.insert({
       calendarId: "primary",
@@ -64,13 +66,13 @@ const createCalendarEvent = async ({
           "Healthcare appointment created through Healthcare Appointment Manager.",
 
         start: {
-          dateTime: startDateTime.toISOString(),
-          timeZone: "Asia/Kolkata"
+            dateTime: startDateTime,
+            timeZone: "Asia/Kolkata"
         },
 
         end: {
-          dateTime: endDateTime.toISOString(),
-          timeZone: "Asia/Kolkata"
+            dateTime: endDateTime,
+            timeZone: "Asia/Kolkata"
         },
 
         attendees: [
