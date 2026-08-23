@@ -534,6 +534,46 @@ function PatientDashboard() {
                     </p>
                   )}
 
+                  {/* AI POST-VISIT SUMMARY */}
+                  {appointment.postVisitSummary?.summary && (
+                    <div className="ai-summary-card post-visit-summary">
+                      <h4>✨ AI Post-Visit Summary</h4>
+
+                      <p>
+                        <strong>Summary:</strong>{" "}
+                        {appointment.postVisitSummary.summary}
+                      </p>
+
+                      {appointment.postVisitSummary.medicationSchedule?.length > 0 && (
+                        <div>
+                          <strong>💊 Medication Schedule:</strong>
+
+                          <ul>
+                            {appointment.postVisitSummary.medicationSchedule.map(
+                              (medicine, index) => (
+                                <li key={index}>{medicine}</li>
+                              )
+                            )}
+                          </ul>
+                        </div>
+                      )}
+
+                      {appointment.postVisitSummary.followUpSteps?.length > 0 && (
+                        <div>
+                          <strong>📋 Follow-Up Steps:</strong>
+
+                          <ul>
+                            {appointment.postVisitSummary.followUpSteps.map(
+                              (step, index) => (
+                                <li key={index}>{step}</li>
+                              )
+                            )}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
                   {[
                     "booked",
                     "confirmed"
