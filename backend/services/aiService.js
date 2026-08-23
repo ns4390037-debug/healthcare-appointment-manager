@@ -15,7 +15,7 @@ const cleanJsonResponse = (text) => {
 const generatePreVisitAI = async (symptoms) => {
   try {
     const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash"
+      model: "gemini-2.0-flash"
     });
 
     const prompt = `
@@ -60,7 +60,7 @@ ${symptoms}
 const generatePostVisitAI = async (notes, prescription = []) => {
   try {
     const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash"
+      model: "gemini-2.0-flash"
     });
 
     const prescriptionText = prescription.length
