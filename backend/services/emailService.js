@@ -1,29 +1,6 @@
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
 
-const dns = require("dns");
-
-dns.setDefaultResultOrder("ipv4first");
-// Create email transporter
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
-
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  },
-
-  requireTLS: true,
-
-  tls: {
-    minVersion: "TLSv1.2"
-  },
-
-  connectionTimeout: 30000,
-  greetingTimeout: 30000,
-  socketTimeout: 30000
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Send booking confirmation email
 const sendBookingConfirmationEmail = async ({
@@ -34,11 +11,9 @@ const sendBookingConfirmationEmail = async ({
   timeSlot
 }) => {
   try {
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-
+    const response = await resend.emails.send({
+      from: "Healthcare Appointment Manager <onboarding@resend.dev>",
       to: patientEmail,
-
       subject: "Appointment Booking Confirmed",
 
       html: `
@@ -63,7 +38,11 @@ const sendBookingConfirmationEmail = async ({
       `
     });
 
-    console.log("Booking confirmation email sent successfully");
+    console.log(
+      "Booking confirmation email sent successfully:",
+      response.data?.id
+    );
+
   } catch (error) {
     console.error(
       "Failed to send booking confirmation email:",
@@ -71,6 +50,7 @@ const sendBookingConfirmationEmail = async ({
     );
   }
 };
+
 
 // Send new appointment notification to doctor
 const sendDoctorBookingNotificationEmail = async ({
@@ -82,11 +62,9 @@ const sendDoctorBookingNotificationEmail = async ({
   reason
 }) => {
   try {
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-
+    const response = await resend.emails.send({
+      from: "Healthcare Appointment Manager <onboarding@resend.dev>",
       to: doctorEmail,
-
       subject: "New Appointment Booked",
 
       html: `
@@ -109,7 +87,11 @@ const sendDoctorBookingNotificationEmail = async ({
       `
     });
 
-    console.log("Doctor booking notification sent successfully");
+    console.log(
+      "Doctor booking notification sent successfully:",
+      response.data?.id
+    );
+
   } catch (error) {
     console.error(
       "Failed to send doctor notification email:",
@@ -117,6 +99,7 @@ const sendDoctorBookingNotificationEmail = async ({
     );
   }
 };
+
 
 // Send cancellation email to patient
 const sendPatientCancellationEmail = async ({
@@ -127,8 +110,8 @@ const sendPatientCancellationEmail = async ({
   timeSlot
 }) => {
   try {
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
+    const response = await resend.emails.send({
+      from: "Healthcare Appointment Manager <onboarding@resend.dev>",
       to: patientEmail,
       subject: "Appointment Cancelled",
 
@@ -148,11 +131,16 @@ const sendPatientCancellationEmail = async ({
         <p>You may book another appointment at a convenient time.</p>
 
         <br/>
+
         <p><strong>Healthcare Appointment Manager</strong></p>
       `
     });
 
-    console.log("Patient cancellation email sent successfully");
+    console.log(
+      "Patient cancellation email sent successfully:",
+      response.data?.id
+    );
+
   } catch (error) {
     console.error(
       "Failed to send patient cancellation email:",
@@ -171,8 +159,8 @@ const sendDoctorCancellationEmail = async ({
   timeSlot
 }) => {
   try {
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
+    const response = await resend.emails.send({
+      from: "Healthcare Appointment Manager <onboarding@resend.dev>",
       to: doctorEmail,
       subject: "Appointment Cancelled by Patient",
 
@@ -190,11 +178,16 @@ const sendDoctorCancellationEmail = async ({
         <p><strong>Time:</strong> ${timeSlot}</p>
 
         <br/>
+
         <p><strong>Healthcare Appointment Manager</strong></p>
       `
     });
 
-    console.log("Doctor cancellation email sent successfully");
+    console.log(
+      "Doctor cancellation email sent successfully:",
+      response.data?.id
+    );
+
   } catch (error) {
     console.error(
       "Failed to send doctor cancellation email:",
@@ -203,6 +196,8 @@ const sendDoctorCancellationEmail = async ({
   }
 };
 
+
+// Send appointment reminder email
 const sendAppointmentReminderEmail = async ({
   patientEmail,
   patientName,
@@ -211,8 +206,8 @@ const sendAppointmentReminderEmail = async ({
   timeSlot
 }) => {
   try {
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
+    const response = await resend.emails.send({
+      from: "Healthcare Appointment Manager <onboarding@resend.dev>",
       to: patientEmail,
       subject: "Reminder: Your Appointment is Tomorrow",
 
@@ -232,11 +227,16 @@ const sendAppointmentReminderEmail = async ({
         <p>Please make sure to be available at the scheduled time.</p>
 
         <br/>
+
         <p><strong>Healthcare Appointment Manager</strong></p>
       `
     });
 
-    console.log("Appointment reminder email sent successfully");
+    console.log(
+      "Appointment reminder email sent successfully:",
+      response.data?.id
+    );
+
   } catch (error) {
     console.error(
       "Failed to send appointment reminder email:",
@@ -246,6 +246,7 @@ const sendAppointmentReminderEmail = async ({
 };
 
 
+// Send medication reminder email
 const sendMedicationReminderEmail = async ({
   patientEmail,
   patientName,
@@ -254,11 +255,9 @@ const sendMedicationReminderEmail = async ({
   frequency
 }) => {
   try {
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-
+    const response = await resend.emails.send({
+      from: "Healthcare Appointment Manager <onboarding@resend.dev>",
       to: patientEmail,
-
       subject: `Medication Reminder: ${medicineName}`,
 
       html: `
@@ -285,8 +284,10 @@ const sendMedicationReminderEmail = async ({
     });
 
     console.log(
-      `Medication reminder sent: ${medicineName}`
+      `Medication reminder sent: ${medicineName}`,
+      response.data?.id
     );
+
   } catch (error) {
     console.error(
       "Failed to send medication reminder:",
