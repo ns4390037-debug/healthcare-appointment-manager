@@ -2,9 +2,22 @@ const Appointment = require("../models/Appointment");
 const Doctor = require("../models/Doctor");
 
 const {
+  createCalendarEvent
+} = require("../services/calendarService");
+
+const {
   generatePreVisitAI,
   generatePostVisitAI
 } = require("../services/aiService");
+
+const {
+  sendBookingConfirmationEmail,
+  sendDoctorBookingNotificationEmail,
+  sendPatientCancellationEmail,
+  sendDoctorCancellationEmail
+} = require("../services/emailService");
+
+
 
 // BOOK APPOINTMENT
 const bookAppointment = async (req, res) => {
@@ -25,7 +38,8 @@ const bookAppointment = async (req, res) => {
     }
 
     // Check if doctor exists
-    const doctor = await Doctor.findById(doctorId);
+    const doctor = await Doctor.findById(doctorId)
+    .populate("user", "name email");
 
     if (!doctor) {
       return res.status(404).json({
@@ -80,6 +94,53 @@ const bookAppointment = async (req, res) => {
       timeSlot,
       reason,
       symptoms
+    });
+
+    // CREATE GOOGLE CALENDAR EVENT
+    try {
+      const calendarEvent = await createCalendarEvent({
+        patientEmail: req.user.email,
+
+        doctorEmail: doctor.user?.email,
+
+        doctorName: doctor.user?.name || "Doctor",
+
+        appointmentDate,
+
+        appointmentTime: timeSlot
+      });
+
+      if (calendarEvent) {
+        appointment.calendarEventId = calendarEvent.id;
+
+        await appointment.save();
+      }
+    } catch (calendarError) {
+      console.error(
+        "Calendar event creation failed:",
+        calendarError.message
+      );
+
+      // Appointment booking should continue
+      // even if Google Calendar fails
+    }
+
+    // Send booking confirmation emails
+    sendBookingConfirmationEmail({
+      patientEmail: req.user.email,
+      patientName: req.user.name,
+      doctorName: doctor.user?.name || "Doctor",
+      appointmentDate,
+      timeSlot
+    });
+
+    sendDoctorBookingNotificationEmail({
+      doctorEmail: doctor.user?.email,
+      doctorName: doctor.user?.name || "Doctor",
+      patientName: req.user.name,
+      appointmentDate,
+      timeSlot,
+      reason
     });
 
     res.status(201).json({
@@ -171,7 +232,13 @@ const updateAppointment = async (req, res) => {
 
     const appointment = await Appointment.findOne({
       _id: req.params.id,
-      doctor: doctor._id
+      patient: req.user._id
+    }).populate({
+      path: "doctor",
+      populate: {
+        path: "user",
+        select: "name email"
+      }
     });
 
     if (!appointment) {
@@ -377,6 +444,24 @@ const cancelAppointment = async (req, res) => {
 
     appointment.status = "cancelled";
     await appointment.save();
+
+    // Notify patient
+    sendPatientCancellationEmail({
+      patientEmail: req.user.email,
+      patientName: req.user.name,
+      doctorName: appointment.doctor?.user?.name || "Doctor",
+      appointmentDate: appointment.appointmentDate,
+      timeSlot: appointment.timeSlot
+    });
+
+    // Notify doctor
+    sendDoctorCancellationEmail({
+      doctorEmail: appointment.doctor?.user?.email,
+      doctorName: appointment.doctor?.user?.name || "Doctor",
+      patientName: req.user.name,
+      appointmentDate: appointment.appointmentDate,
+      timeSlot: appointment.timeSlot
+    });
 
     res.status(200).json({
       message: "Appointment cancelled successfully",

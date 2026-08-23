@@ -257,72 +257,69 @@ button {
 /* ================= AI POST-VISIT SUMMARY ================= */
 
 .post-visit-section {
-  margin-top: 22px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #e5e7eb;
 }
 
 .post-visit-title {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 15px;
-  color: #2563eb;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #1e3a8a;
+  letter-spacing: 0.2px;
 }
 
 .post-visit-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .post-visit-card {
-  background: #f8fbff;
-  border: 1px solid #dbeafe;
-  border-left: 5px solid #2563eb;
-  border-radius: 14px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid #2563eb;
+  border-radius: 12px;
   padding: 18px;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
   transition: 0.2s ease;
 }
 
 .post-visit-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.1);
 }
 
 .post-visit-card h5 {
   color: #1e3a8a;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   font-size: 17px;
+  font-weight: 700;
 }
 
 .post-visit-card p {
   margin: 0 !important;
-  line-height: 1.6;
+  line-height: 1.65;
+  color: #475569;
+  font-size: 15px;
 }
 
 .post-visit-card ul {
   margin: 0;
-  padding-left: 20px;
+  padding-left: 18px;
 }
 
 .post-visit-card li {
-  margin-bottom: 9px;
-  line-height: 1.5;
+  margin-bottom: 8px;
+  line-height: 1.6;
+  color: #475569;
+  font-size: 15px;
 }
 
 .follow-up-card {
-  grid-column: 1 / -1;
+  border-left-color: #7c3aed;
 }
-
-@media (max-width: 768px) {
-  .post-visit-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .follow-up-card {
-    grid-column: auto;
-  }
-}
-
 /* ================= RESPONSIVE ================= */
 
 @media (max-width: 768px) {

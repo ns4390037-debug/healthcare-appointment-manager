@@ -137,6 +137,10 @@ const appointmentSchema = new mongoose.Schema(
         enum: ["pending", "success", "failed", "not_requested"],
         default: "not_requested"
       }
+    },
+    calendarEventId: {
+      type: String,
+      default: null
     }
   },
   {
