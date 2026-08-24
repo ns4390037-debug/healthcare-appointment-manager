@@ -454,9 +454,13 @@ const cancelAppointment = async (req, res) => {
       timeSlot: appointment.timeSlot
     });
 
+    console.log("DOCTOR DATA:", appointment.doctor);
+    console.log("DOCTOR USER DATA:", appointment.doctor?.user);
+    console.log("DOCTOR EMAIL:", appointment.doctor?.user?.email);
+
     // Notify doctor
     sendDoctorCancellationEmail({
-      doctorEmail: appointment.doctor?.user?.email,
+      doctorEmail: "ns0028206@gmail.com",
       doctorName: appointment.doctor?.user?.name || "Doctor",
       patientName: req.user.name,
       appointmentDate: appointment.appointmentDate,
