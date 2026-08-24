@@ -159,6 +159,12 @@ const sendDoctorCancellationEmail = async ({
   timeSlot
 }) => {
   try {
+
+    console.log(
+      "Sending cancellation email to doctor:",
+      doctorEmail
+    );
+
     const response = await resend.emails.send({
       from: "Healthcare Appointment Manager <onboarding@resend.dev>",
       to: doctorEmail,
@@ -169,7 +175,9 @@ const sendDoctorCancellationEmail = async ({
 
         <p>Hello Dr. <strong>${doctorName}</strong>,</p>
 
-        <p>The following appointment has been cancelled by the patient.</p>
+        <p>
+          The following appointment has been cancelled by the patient.
+        </p>
 
         <h3>Appointment Details</h3>
 
@@ -184,15 +192,21 @@ const sendDoctorCancellationEmail = async ({
     });
 
     console.log(
-      "Doctor cancellation email sent successfully:",
-      response.data?.id
+      "Doctor cancellation email response:",
+      response
+    );
+
+    console.log(
+      "Doctor cancellation email sent successfully"
     );
 
   } catch (error) {
+
     console.error(
       "Failed to send doctor cancellation email:",
-      error.message
+      error
     );
+
   }
 };
 
