@@ -25,8 +25,6 @@ function DoctorDashboard() {
         }
       );
 
-      console.log("Doctor Appointments:", response.data);
-
       setAppointments(response.data.appointments || []);
     } catch (error) {
       console.error(
@@ -40,9 +38,7 @@ function DoctorDashboard() {
     try {
       await axios.put(
         `https://healthcare-appointment-manager-backend-0507.onrender.com/api/appointments/${id}`,
-        {
-          status
-        },
+        { status },
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -51,7 +47,6 @@ function DoctorDashboard() {
       );
 
       alert("Appointment updated successfully!");
-
       fetchDoctorAppointments();
     } catch (error) {
       alert(
@@ -132,11 +127,6 @@ function DoctorDashboard() {
         }
       );
 
-      console.log(
-        "AI Post-Visit Summary:",
-        response.data
-      );
-
       if (response.data.aiStatus === "failed") {
         alert(
           response.data.message ||
@@ -170,88 +160,325 @@ function DoctorDashboard() {
     window.location.href = "/";
   };
 
-  return (
-    <div className="dashboard">
-      <header className="dashboard-header">
-        <h1>Doctor Dashboard</h1>
+  const getStatusClass = (status) => {
+    return `doctor-status-${status?.toLowerCase() || "booked"}`;
+  };
 
-        <button onClick={handleLogout}>
-          Logout
-        </button>
+  const bookedCount = appointments.filter(
+    (appointment) => appointment.status === "booked"
+  ).length;
+
+  const confirmedCount = appointments.filter(
+    (appointment) => appointment.status === "confirmed"
+  ).length;
+
+  const completedCount = appointments.filter(
+    (appointment) => appointment.status === "completed"
+  ).length;
+
+  return (
+    <div className="doctor-dashboard">
+
+      {/* ================= HEADER ================= */}
+
+      <header className="doctor-header">
+        <div className="doctor-brand">
+          <div className="doctor-logo">
+            H
+          </div>
+
+          <div>
+            <h1>Healthcare Manager</h1>
+            <p>APPOINTMENT & FOLLOW-UP MANAGEMENT</p>
+          </div>
+        </div>
+
+        <div className="doctor-header-actions">
+          <div className="doctor-role-tag">
+            DOCTOR PORTAL
+          </div>
+
+          <button
+            className="doctor-logout-btn"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
+        </div>
       </header>
 
-      <section>
-        <h2>My Appointments</h2>
+
+      {/* ================= WELCOME ================= */}
+
+      <section className="doctor-welcome">
+        <div>
+          <p className="doctor-eyebrow">
+            HEALTHCARE PROVIDER PORTAL
+          </p>
+
+          <h2>Manage your patients with clarity.</h2>
+
+          <p>
+            Review appointments, manage patient consultations and
+            generate AI-powered post-visit summaries from one place.
+          </p>
+        </div>
+
+        <button
+          className="doctor-refresh-btn"
+          onClick={fetchDoctorAppointments}
+        >
+          ↻ Refresh Appointments
+        </button>
+      </section>
+
+
+      {/* ================= OVERVIEW ================= */}
+
+      <section className="doctor-overview-section">
+        <div className="doctor-section-heading">
+          <div>
+            <p className="doctor-eyebrow">
+              APPOINTMENT OVERVIEW
+            </p>
+
+            <h2>Your Dashboard</h2>
+
+            <p>
+              A quick overview of your current patient appointments.
+            </p>
+          </div>
+
+          <span className="doctor-section-tag">
+            LIVE DATA
+          </span>
+        </div>
+
+        <div className="doctor-overview-grid">
+
+          <div className="doctor-overview-card">
+            <span className="overview-label">
+              Total Appointments
+            </span>
+
+            <h3>{appointments.length}</h3>
+
+            <p>
+              All appointment records
+            </p>
+          </div>
+
+          <div className="doctor-overview-card">
+            <span className="overview-label">
+              Awaiting Action
+            </span>
+
+            <h3>{bookedCount}</h3>
+
+            <p>
+              New appointment requests
+            </p>
+          </div>
+
+          <div className="doctor-overview-card">
+            <span className="overview-label">
+              Confirmed Visits
+            </span>
+
+            <h3>{confirmedCount}</h3>
+
+            <p>
+              Upcoming consultations
+            </p>
+          </div>
+
+          <div className="doctor-overview-card">
+            <span className="overview-label">
+              Completed
+            </span>
+
+            <h3>{completedCount}</h3>
+
+            <p>
+              Completed consultations
+            </p>
+          </div>
+
+        </div>
+      </section>
+
+
+      {/* ================= APPOINTMENTS ================= */}
+
+      <section className="doctor-appointments-section">
+
+        <div className="doctor-section-heading">
+          <div>
+            <p className="doctor-eyebrow">
+              PATIENT CONSULTATIONS
+            </p>
+
+            <h2>My Appointments</h2>
+
+            <p>
+              Review patient details and manage consultation status.
+            </p>
+          </div>
+
+          <span className="doctor-section-tag">
+            {appointments.length} TOTAL
+          </span>
+        </div>
+
 
         {appointments.length === 0 ? (
-          <p>No appointments found.</p>
+          <div className="doctor-empty-state">
+            <div className="empty-icon">
+              🩺
+            </div>
+
+            <h3>No appointments found</h3>
+
+            <p>
+              Patient appointments will appear here when they are booked.
+            </p>
+          </div>
         ) : (
-          <div className="card-grid">
+          <div className="doctor-appointment-grid">
+
             {appointments.map((appointment) => (
               <div
-                className="appointment-card"
+                className="doctor-appointment-card"
                 key={appointment._id}
               >
-                <h3>
-                  Patient: {appointment.patient?.name}
-                </h3>
 
-                <p>
-                  <strong>Date:</strong>{" "}
-                  {new Date(
-                    appointment.appointmentDate
-                  ).toLocaleDateString()}
-                </p>
+                {/* CARD HEADER */}
 
-                <p>
-                  <strong>Time:</strong>{" "}
-                  {appointment.timeSlot}
-                </p>
+                <div className="doctor-appointment-top">
 
-                <p>
-                  <strong>Reason:</strong>{" "}
-                  {appointment.reason}
-                </p>
+                  <div className="patient-profile">
+                    <div className="patient-avatar">
+                      {appointment.patient?.name
+                        ?.charAt(0)
+                        ?.toUpperCase() || "P"}
+                    </div>
+
+                    <div>
+                      <p className="appointment-small-label">
+                        PATIENT CONSULTATION
+                      </p>
+
+                      <h3>
+                        {appointment.patient?.name ||
+                          "Patient"}
+                      </h3>
+                    </div>
+                  </div>
+
+                  <span
+                    className={`doctor-appointment-status ${getStatusClass(
+                      appointment.status
+                    )}`}
+                  >
+                    {appointment.status}
+                  </span>
+
+                </div>
+
+
+                {/* APPOINTMENT INFO */}
+
+                <div className="doctor-appointment-info">
+
+                  <div className="doctor-info-item">
+                    <span>Date</span>
+
+                    <strong>
+                      {new Date(
+                        appointment.appointmentDate
+                      ).toLocaleDateString()}
+                    </strong>
+                  </div>
+
+                  <div className="doctor-info-item">
+                    <span>Time</span>
+
+                    <strong>
+                      {appointment.timeSlot}
+                    </strong>
+                  </div>
+
+                </div>
+
+
+                {/* REASON */}
+
+                <div className="doctor-detail-box">
+                  <span>Reason for Appointment</span>
+
+                  <p>
+                    {appointment.reason}
+                  </p>
+                </div>
+
+
+                {/* SYMPTOMS */}
 
                 {appointment.symptoms && (
-                  <p>
-                    <strong>Symptoms:</strong>{" "}
-                    {appointment.symptoms}
-                  </p>
-                )}
-
-                {appointment.preVisitSummary?.urgencyLevel && (
-                  <div className="ai-summary-card">
-                    <h4>
-                      ✨ AI Pre-Visit Summary
-                    </h4>
+                  <div className="doctor-detail-box">
+                    <span>Patient Symptoms</span>
 
                     <p>
-                      <strong>Urgency:</strong>{" "}
-                      {
-                        appointment.preVisitSummary
-                          .urgencyLevel
-                      }
-                    </p>
-
-                    <p>
-                      <strong>Chief Complaint:</strong>{" "}
-                      {
-                        appointment.preVisitSummary
-                          .chiefComplaint
-                      }
+                      {appointment.symptoms}
                     </p>
                   </div>
                 )}
 
-                <p>
-                  <strong>Status:</strong>{" "}
-                  {appointment.status}
-                </p>
+
+                {/* AI PRE-VISIT SUMMARY */}
+
+                {appointment.preVisitSummary?.urgencyLevel && (
+                  <div className="doctor-ai-pre-summary">
+
+                    <div className="doctor-ai-title">
+                      <span>✨</span>
+
+                      <h4>
+                        AI Pre-Visit Summary
+                      </h4>
+                    </div>
+
+                    <div className="doctor-ai-summary-content">
+
+                      <p>
+                        <strong>Urgency Level:</strong>{" "}
+                        {
+                          appointment.preVisitSummary
+                            .urgencyLevel
+                        }
+                      </p>
+
+                      <p>
+                        <strong>Chief Complaint:</strong>{" "}
+                        {
+                          appointment.preVisitSummary
+                            .chiefComplaint
+                        }
+                      </p>
+
+                    </div>
+
+                  </div>
+                )}
+
+
+                {/* STATUS ACTIONS */}
 
                 {appointment.status === "booked" && (
-                  <div className="appointment-actions">
+                  <div className="doctor-appointment-actions">
+
                     <button
+                      className="doctor-confirm-btn"
                       onClick={() =>
                         updateAppointmentStatus(
                           appointment._id,
@@ -259,10 +486,11 @@ function DoctorDashboard() {
                         )
                       }
                     >
-                      Confirm
+                      Confirm Appointment
                     </button>
 
                     <button
+                      className="doctor-cancel-btn"
                       onClick={() =>
                         updateAppointmentStatus(
                           appointment._id,
@@ -272,11 +500,14 @@ function DoctorDashboard() {
                     >
                       Cancel
                     </button>
+
                   </div>
                 )}
 
+
                 {appointment.status === "confirmed" && (
                   <button
+                    className="doctor-complete-btn"
                     onClick={() =>
                       updateAppointmentStatus(
                         appointment._id,
@@ -284,112 +515,154 @@ function DoctorDashboard() {
                       )
                     }
                   >
-                    Mark as Completed
+                    Mark as Completed →
                   </button>
                 )}
 
-                {/* POST-VISIT SECTION */}
+
+                {/* ================= POST VISIT ================= */}
+
                 {appointment.status === "completed" && (
-                  <div className="post-visit-section">
+                  <div className="doctor-post-visit-section">
+
                     {!appointment.postVisitSummary?.summary ? (
                       <>
-                        <h3>
-                          Post-Visit Details
-                        </h3>
 
-                        <label>
-                          Clinical Notes
-                        </label>
+                        <div className="doctor-post-visit-heading">
+                          <p className="doctor-eyebrow">
+                            POST-VISIT MANAGEMENT
+                          </p>
 
-                        <textarea
-                          rows="5"
-                          placeholder="Enter diagnosis, treatment details and clinical notes..."
-                          value={
-                            notesData[appointment._id] ??
-                            appointment.notes ??
-                            ""
-                          }
-                          onChange={(event) =>
-                            handleNotesChange(
-                              appointment._id,
-                              event.target.value
-                            )
-                          }
-                        />
+                          <h3>
+                            Complete Consultation Details
+                          </h3>
 
-                        <h4>
-                          Prescription
-                        </h4>
+                          <p>
+                            Add clinical notes and prescription details
+                            to generate an AI-powered patient summary.
+                          </p>
+                        </div>
 
-                        <input
-                          type="text"
-                          placeholder="Medicine name"
-                          value={
-                            prescriptionData[
-                              appointment._id
-                            ]?.medicineName || ""
-                          }
-                          onChange={(event) =>
-                            handlePrescriptionChange(
-                              appointment._id,
-                              "medicineName",
-                              event.target.value
-                            )
-                          }
-                        />
 
-                        <input
-                          type="text"
-                          placeholder="Dosage (example: 500 mg)"
-                          value={
-                            prescriptionData[
-                              appointment._id
-                            ]?.dosage || ""
-                          }
-                          onChange={(event) =>
-                            handlePrescriptionChange(
-                              appointment._id,
-                              "dosage",
-                              event.target.value
-                            )
-                          }
-                        />
+                        {/* CLINICAL NOTES */}
 
-                        <input
-                          type="text"
-                          placeholder="Frequency (example: Twice daily)"
-                          value={
-                            prescriptionData[
-                              appointment._id
-                            ]?.frequency || ""
-                          }
-                          onChange={(event) =>
-                            handlePrescriptionChange(
-                              appointment._id,
-                              "frequency",
-                              event.target.value
-                            )
-                          }
-                        />
+                        <div className="doctor-form-group">
 
-                        <input
-                          type="text"
-                          placeholder="Duration (example: 5 days)"
-                          value={
-                            prescriptionData[
-                              appointment._id
-                            ]?.duration || ""
-                          }
-                          onChange={(event) =>
-                            handlePrescriptionChange(
-                              appointment._id,
-                              "duration",
-                              event.target.value
-                            )
-                          }
-                        />
+                          <label>
+                            Clinical Notes
+                          </label>
+
+                          <textarea
+                            rows="5"
+                            placeholder="Enter diagnosis, treatment details and clinical notes..."
+                            value={
+                              notesData[appointment._id] ??
+                              appointment.notes ??
+                              ""
+                            }
+                            onChange={(event) =>
+                              handleNotesChange(
+                                appointment._id,
+                                event.target.value
+                              )
+                            }
+                          />
+
+                        </div>
+
+
+                        {/* PRESCRIPTION */}
+
+                        <div className="doctor-prescription-section">
+
+                          <div className="doctor-prescription-heading">
+                            <h4>
+                              Prescription Details
+                            </h4>
+
+                            <span>
+                              OPTIONAL
+                            </span>
+                          </div>
+
+
+                          <div className="doctor-prescription-grid">
+
+                            <input
+                              type="text"
+                              placeholder="Medicine name"
+                              value={
+                                prescriptionData[
+                                  appointment._id
+                                ]?.medicineName || ""
+                              }
+                              onChange={(event) =>
+                                handlePrescriptionChange(
+                                  appointment._id,
+                                  "medicineName",
+                                  event.target.value
+                                )
+                              }
+                            />
+
+                            <input
+                              type="text"
+                              placeholder="Dosage (example: 500 mg)"
+                              value={
+                                prescriptionData[
+                                  appointment._id
+                                ]?.dosage || ""
+                              }
+                              onChange={(event) =>
+                                handlePrescriptionChange(
+                                  appointment._id,
+                                  "dosage",
+                                  event.target.value
+                                )
+                              }
+                            />
+
+                            <input
+                              type="text"
+                              placeholder="Frequency (example: Twice daily)"
+                              value={
+                                prescriptionData[
+                                  appointment._id
+                                ]?.frequency || ""
+                              }
+                              onChange={(event) =>
+                                handlePrescriptionChange(
+                                  appointment._id,
+                                  "frequency",
+                                  event.target.value
+                                )
+                              }
+                            />
+
+                            <input
+                              type="text"
+                              placeholder="Duration (example: 5 days)"
+                              value={
+                                prescriptionData[
+                                  appointment._id
+                                ]?.duration || ""
+                              }
+                              onChange={(event) =>
+                                handlePrescriptionChange(
+                                  appointment._id,
+                                  "duration",
+                                  event.target.value
+                                )
+                              }
+                            />
+
+                          </div>
+
+                        </div>
+
 
                         <button
+                          className="doctor-generate-ai-btn"
                           onClick={() =>
                             generatePostVisitSummary(
                               appointment
@@ -405,56 +678,116 @@ function DoctorDashboard() {
                             ? "Generating AI Summary..."
                             : "✨ Generate AI Post-Visit Summary"}
                         </button>
+
                       </>
                     ) : (
-                      <div className="ai-summary-card">
-                        <h3>
-                          ✨ AI Post-Visit Summary
-                        </h3>
 
-                        <p>
-                          {
-                            appointment.postVisitSummary
-                              .summary
-                          }
-                        </p>
+                      /* ================= AI POST-VISIT RESULT ================= */
 
-                        <h4>
-                          💊 Medication Schedule
-                        </h4>
+                      <div className="doctor-ai-post-result">
 
-                        <ul>
-                          {appointment.postVisitSummary.medicationSchedule?.map(
-                            (item, index) => (
-                              <li key={index}>
-                                {item}
-                              </li>
-                            )
-                          )}
-                        </ul>
+                        <div className="doctor-ai-title">
+                          <span>✨</span>
 
-                        <h4>
-                          📋 Follow-Up Steps
-                        </h4>
+                          <h3>
+                            AI Post-Visit Summary
+                          </h3>
+                        </div>
 
-                        <ul>
-                          {appointment.postVisitSummary.followUpSteps?.map(
-                            (item, index) => (
-                              <li key={index}>
-                                {item}
-                              </li>
-                            )
-                          )}
-                        </ul>
+
+                        <div className="doctor-ai-result-card">
+
+                          <h4>
+                            📋 Visit Summary
+                          </h4>
+
+                          <p>
+                            {
+                              appointment.postVisitSummary
+                                .summary
+                            }
+                          </p>
+
+                        </div>
+
+
+                        {appointment.postVisitSummary
+                          .medicationSchedule?.length > 0 && (
+                          <div className="doctor-ai-result-card">
+
+                            <h4>
+                              💊 Medication Schedule
+                            </h4>
+
+                            <ul>
+                              {appointment.postVisitSummary
+                                .medicationSchedule
+                                .map((item, index) => (
+                                  <li key={index}>
+                                    {item}
+                                  </li>
+                                ))}
+                            </ul>
+
+                          </div>
+                        )}
+
+
+                        {appointment.postVisitSummary
+                          .followUpSteps?.length > 0 && (
+                          <div className="doctor-ai-result-card doctor-followup-card">
+
+                            <h4>
+                              📌 Follow-Up Steps
+                            </h4>
+
+                            <ul>
+                              {appointment.postVisitSummary
+                                .followUpSteps
+                                .map((item, index) => (
+                                  <li key={index}>
+                                    {item}
+                                  </li>
+                                ))}
+                            </ul>
+
+                          </div>
+                        )}
+
                       </div>
                     )}
+
                   </div>
                 )}
+
               </div>
             ))}
+
           </div>
         )}
       </section>
+
+
+      {/* ================= FOOTER ================= */}
+
+      <footer className="doctor-footer">
+
+        <div>
+          <strong>
+            Healthcare Manager
+          </strong>
+
+          <span>
+            Doctor Appointment & Follow-Up Management
+          </span>
+        </div>
+
+        <button onClick={handleLogout}>
+          Logout
+        </button>
+
+      </footer>
+
     </div>
   );
 }
