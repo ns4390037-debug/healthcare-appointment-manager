@@ -2741,14 +2741,18 @@ button {
   }
 }
 
-.appointment-card {
+.patient-appointment-card {
+  position: relative;
+}
+
+.appointment-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   position: relative;
 }
 
 .appointment-status {
-  position: absolute;
-  top: 24px;
-  right: 24px;
-  width: auto;
-  z-index: 5;
+  flex-shrink: 0;
+  margin-left: 20px;
 }
