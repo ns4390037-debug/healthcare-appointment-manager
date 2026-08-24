@@ -39,7 +39,7 @@ function AdminDashboard() {
   if (!stats) {
     return (
       <div className="olive-loading">
-        <h2>Loading Olive Health Dashboard...</h2>
+        <h2>Loading Healthcare Manager Dashboard...</h2>
       </div>
     );
   }
@@ -60,7 +60,7 @@ function AdminDashboard() {
         <div className="olive-brand">
           <div className="olive-logo-circle"></div>
           <div>
-            <h1>Olive Health</h1>
+            <h1>Healthcare Manager</h1>
 
             <p>
               APPOINTMENT & FOLLOW-UP MANAGER
@@ -417,7 +417,7 @@ function AdminDashboard() {
 
         <div>
           <strong>
-            Olive Health Admin Portal
+            Healthcare Manager Admin Portal
           </strong>
 
           <span>
