@@ -38,50 +38,129 @@ function Register() {
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-card">
-        <h1>Create Account</h1>
+    <div className="auth-page">
+      <div className="auth-left">
+        <div className="brand">
+          <div className="brand-icon">◖</div>
 
-        <form onSubmit={handleRegister}>
-          <input
-            type="text"
-            name="name"
-            placeholder="Full Name"
-            onChange={handleChange}
-            required
-          />
+          <div>
+            <h1>Olive Health</h1>
+            <p>APPOINTMENT & FOLLOW-UP MANAGER</p>
+          </div>
+        </div>
 
-          <input
-            type="email"
-            name="email"
-            placeholder="Email Address"
-            onChange={handleChange}
-            required
-          />
+        <div className="auth-hero">
+          <span className="hero-label">START YOUR HEALTHCARE JOURNEY</span>
 
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            onChange={handleChange}
-            required
-          />
+          <h2>
+            Healthcare,
+            <br />
+            <span>made simpler.</span>
+          </h2>
 
-          <input
-            type="text"
-            name="phone"
-            placeholder="Phone Number"
-            onChange={handleChange}
-            required
-          />
+          <p>
+            Create your account and get access to smarter appointments,
+            reminders and healthcare management.
+          </p>
 
-          <button type="submit">Register</button>
-        </form>
+          <div className="hero-features">
+            <div>
+              <span>✓</span>
+              Find and book doctors easily
+            </div>
 
-        <p>
-          Already have an account?{" "}
-          <Link to="/">Login</Link>
-        </p>
+            <div>
+              <span>✓</span>
+              Manage your appointments
+            </div>
+
+            <div>
+              <span>✓</span>
+              Get smart healthcare insights
+            </div>
+          </div>
+        </div>
+
+        <div className="auth-footer-text">
+          © 2026 Olive Health
+        </div>
+      </div>
+
+      <div className="auth-right">
+        <div className="auth-form-wrapper register-form">
+          <div className="auth-top-tag">CREATE YOUR ACCOUNT</div>
+
+          <h2>Join Olive Health</h2>
+
+          <p className="auth-subtitle">
+            Set up your account and start managing your healthcare smarter.
+          </p>
+
+          <form onSubmit={handleRegister}>
+            <div className="input-group">
+              <label>Full Name</label>
+              <input
+                type="text"
+                name="name"
+                placeholder="Enter your full name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="input-group">
+              <label>Email Address</label>
+              <input
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="input-group">
+              <label>Phone Number</label>
+              <input
+                type="text"
+                name="phone"
+                placeholder="Enter your phone number"
+                value={formData.phone}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="input-group">
+              <label>Password</label>
+              <input
+                type="password"
+                name="password"
+                placeholder="Create a secure password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <button type="submit" className="auth-submit-btn">
+              Create Account →
+            </button>
+          </form>
+
+          <div className="auth-divider">
+            <span></span>
+            <p>ALREADY A MEMBER?</p>
+            <span></span>
+          </div>
+
+          <p className="auth-switch">
+            Already have an account?{" "}
+            <Link to="/">Sign in</Link>
+          </p>
+        </div>
       </div>
     </div>
   );
