@@ -2740,3 +2740,13 @@ button {
     align-items: flex-start;
   }
 }
+
+.appointment-card {
+  position: relative;
+}
+
+.appointment-status {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+}
