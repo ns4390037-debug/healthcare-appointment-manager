@@ -2749,4 +2749,6 @@ button {
   position: absolute;
   top: 24px;
   right: 24px;
+  width: auto;
+  z-index: 5;
 }
