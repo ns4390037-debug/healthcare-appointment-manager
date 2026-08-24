@@ -523,16 +523,22 @@ button {
 }
 
 .olive-navigation .nav-active {
-  background: white;
-  color: #3d4938;
-  border: 1px solid #ddd4c2;
-  box-shadow: 0 7px 20px rgba(65, 69, 50, 0.07);
+  padding: 18px 30px;
+  border: 1px solid #d8d0c0;
+  border-radius: 18px;
+  background: #ffffff;
+  color: #3d4b4a;
+  font-size: 18px;
+  font-weight: 600;
+  font-family: inherit;
 }
 
 .olive-navigation .logout-nav-btn {
   margin-left: auto;
   border: 1px solid #d7cfbd;
 }
+
+
 
 
 /* ================= MAIN CONTENT ================= */
