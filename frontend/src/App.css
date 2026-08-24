@@ -2556,3 +2556,140 @@ button {
     grid-template-columns: 1fr;
   }
 }
+
+/* ================= MY APPOINTMENTS FIX ================= */
+
+.appointment-card {
+  padding: 36px;
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Top section */
+.appointment-card > .appointment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 24px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid rgba(70, 84, 69, 0.12);
+}
+
+/* Consultation label */
+.appointment-card .appointment-label,
+.appointment-card .consultation-label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 12px;
+  letter-spacing: 2px;
+  font-weight: 700;
+}
+
+/* Doctor name */
+.appointment-card h3 {
+  margin: 0;
+  font-size: 26px;
+  line-height: 1.2;
+}
+
+/* Status badge */
+.appointment-card .appointment-status,
+.appointment-card .status-badge {
+  flex-shrink: 0;
+  padding: 9px 18px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* Details area */
+.appointment-details {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Individual info row */
+.appointment-info {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+/* Labels like Date, Time, Reason */
+.appointment-info strong,
+.appointment-info-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #566055;
+}
+
+/* Values */
+.appointment-info p,
+.appointment-info span,
+.appointment-info-value {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+/* Date and Time side by side */
+.appointment-date-time {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(70, 84, 69, 0.10);
+}
+
+/* AI Summary separate section */
+.ai-summary {
+  margin-top: 10px;
+  padding: 24px;
+  border-radius: 18px;
+  background: rgba(225, 229, 217, 0.7);
+  border: 1px solid rgba(70, 84, 69, 0.13);
+}
+
+.ai-summary h4 {
+  margin: 0 0 18px;
+  font-size: 20px;
+}
+
+.ai-summary p {
+  margin: 10px 0;
+  line-height: 1.55;
+}
+
+.ai-summary ul {
+  margin: 12px 0 0;
+  padding-left: 24px;
+}
+
+.ai-summary li {
+  margin-bottom: 9px;
+  line-height: 1.45;
+}
+
+/* Cancel button bottom */
+.cancel-appointment-btn {
+  margin-top: auto;
+  align-self: flex-start;
+  padding: 15px 24px;
+  border-radius: 14px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .appointment-card {
+    padding: 24px;
+  }
+
+  .appointment-date-time {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
