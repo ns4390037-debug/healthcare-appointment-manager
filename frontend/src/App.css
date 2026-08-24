@@ -2693,3 +2693,50 @@ button {
     gap: 16px;
   }
 }
+
+/* =========================================================
+   PATIENT CONTENT SECTION ALIGNMENT FIX
+========================================================= */
+
+.patient-content-section {
+  width: 86%;
+  max-width: 1400px;
+  margin: 0 auto 70px;
+}
+
+.patient-content-section .patient-section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.patient-content-section .patient-section-heading h2 {
+  margin: 0 0 8px;
+}
+
+.patient-content-section .patient-section-heading p:not(.patient-eyebrow) {
+  margin: 0;
+}
+
+.patient-content-section .patient-section-tag {
+  flex-shrink: 0;
+}
+
+
+/* =========================================================
+   RESPONSIVE PATIENT SECTION FIX
+========================================================= */
+
+@media (max-width: 768px) {
+  .patient-content-section {
+    width: 88%;
+    margin-bottom: 50px;
+  }
+
+  .patient-content-section .patient-section-heading {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
