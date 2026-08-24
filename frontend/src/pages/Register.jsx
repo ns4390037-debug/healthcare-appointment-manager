@@ -44,7 +44,7 @@ function Register() {
           <div className="brand-icon">◖</div>
 
           <div>
-            <h1>Olive Health</h1>
+            <h1>Healthcare Manager</h1>
             <p>APPOINTMENT & FOLLOW-UP MANAGER</p>
           </div>
         </div>
@@ -82,7 +82,7 @@ function Register() {
         </div>
 
         <div className="auth-footer-text">
-          © 2026 Olive Health
+          © 2026 Healthcare Manager
         </div>
       </div>
 
@@ -90,7 +90,7 @@ function Register() {
         <div className="auth-form-wrapper register-form">
           <div className="auth-top-tag">CREATE YOUR ACCOUNT</div>
 
-          <h2>Join Olive Health</h2>
+          <h2>Join Healthcare Manager</h2>
 
           <p className="auth-subtitle">
             Set up your account and start managing your healthcare smarter.
@@ -152,7 +152,7 @@ function Register() {
 
           <div className="auth-divider">
             <span></span>
-            <p>ALREADY A MEMBER?</p>
+            <p>ALREADY HAVE AN ACCOUNT?</p>
             <span></span>
           </div>
 

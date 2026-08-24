@@ -41,8 +41,8 @@ function Login() {
           <div className="brand-icon">◖</div>
 
           <div>
-            <h1>Olive Health</h1>
-            <p>APPOINTMENT & FOLLOW-UP MANAGER</p>
+            <h1>Healthcare Manager</h1>
+            <p>APPOINTMENT & FOLLOW-UP MANAGEMENT</p>
           </div>
         </div>
 
@@ -79,7 +79,7 @@ function Login() {
         </div>
 
         <div className="auth-footer-text">
-          © 2026 Olive Health
+          © 2026 Healthcare Manager
         </div>
       </div>
 
@@ -123,7 +123,7 @@ function Login() {
 
           <div className="auth-divider">
             <span></span>
-            <p>NEW TO OLIVE HEALTH?</p>
+            <p>NEW TO HEALTHCARE MANAGER?</p>
             <span></span>
           </div>
 
