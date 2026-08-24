@@ -2756,3 +2756,14 @@ button {
   flex-shrink: 0;
   margin-left: 20px;
 }
+
+
+.admin-header-badge {
+  padding: 14px 28px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #e7d8aa;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}

@@ -69,28 +69,8 @@ function AdminDashboard() {
         </div>
 
 
-        <nav className="role-switcher">
-          <span>Patient</span>
-          <span>Doctor</span>
-          <span className="active-role">Admin</span>
-        </nav>
-
-
-        <div className="header-actions">
-
-          <div className="notification-icon">
-            🔔
-            <span>3</span>
-          </div>
-
-          <div className="calendar-icon">
-            🗓️
-          </div>
-
-          <div className="profile-circle">
-            AD
-          </div>
-
+        <div className="admin-header-badge">
+          ADMIN PORTAL
         </div>
 
       </header>
@@ -100,34 +80,18 @@ function AdminDashboard() {
 
       <div className="olive-navigation">
 
-        <button className="nav-active">
-          Dashboard
-        </button>
+      <span className="nav-active">
+        Dashboard
+      </span>
 
-        <button>
-          Manage Doctors
-        </button>
+      <button
+        className="logout-nav-btn"
+        onClick={handleLogout}
+      >
+        Logout
+      </button>
 
-        <button>
-          Manage Patients
-        </button>
-
-        <button>
-          Appointments
-        </button>
-
-        <button>
-          System Logs
-        </button>
-
-        <button
-          className="logout-nav-btn"
-          onClick={handleLogout}
-        >
-          Logout
-        </button>
-
-      </div>
+    </div>
 
 
       {/* ================= WELCOME ================= */}
