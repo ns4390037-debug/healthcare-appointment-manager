@@ -232,7 +232,7 @@ const updateAppointment = async (req, res) => {
 
     const appointment = await Appointment.findOne({
       _id: req.params.id,
-      patient: req.user._id
+      doctor: doctor._id
     }).populate({
       path: "doctor",
       populate: {
