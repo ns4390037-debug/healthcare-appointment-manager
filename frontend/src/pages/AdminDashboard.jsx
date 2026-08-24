@@ -79,7 +79,6 @@ function AdminDashboard() {
       {/* ================= NAVIGATION ================= */}
 
       <div className="olive-navigation">
-
       <span className="nav-active">
         Dashboard
       </span>
@@ -90,7 +89,6 @@ function AdminDashboard() {
       >
         Logout
       </button>
-
     </div>
 
 

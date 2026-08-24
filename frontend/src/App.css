@@ -2767,3 +2767,8 @@ button {
   font-weight: 700;
   letter-spacing: 2px;
 }
+
+.dashboard-static {
+  pointer-events: none;
+  cursor: default;
+}
